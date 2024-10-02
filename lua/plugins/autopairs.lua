@@ -22,7 +22,7 @@ return {
       if is_import then
         return
       end
-      cmp_autopairs.on_confirm_done(args)
+      cmp_autopairs.on_confirm_done()(args)
     end)
   end,
 }
