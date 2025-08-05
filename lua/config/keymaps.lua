@@ -18,3 +18,5 @@ vim.keymap.set('n', '<leader>cp', function()
   local text = vim.fn.getline '.'
   vim.fn.setreg('+', path .. '\n' .. text)
 end, { desc = 'Copy quickfix-style location with line text' })
+
+vim.keymap.set('n', '<leader>n', '<cmd> set rnu! <CR>', { desc = 'Toggle relative line numbers' })
