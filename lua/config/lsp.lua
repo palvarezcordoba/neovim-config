@@ -1,4 +1,4 @@
-vim.lsp.enable { 'pyright', 'ruff', 'lua_ls', 'rust_analyzer', 'zls', 'clangd', 'gopls', 'tsserver', 'terraform-ls' }
+vim.lsp.enable { 'basedpyright', 'ruff', 'lua_ls', 'rust_analyzer', 'zls', 'clangd', 'gopls', 'tsserver', 'terraform-ls' }
 --
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {

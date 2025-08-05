@@ -11,6 +11,9 @@ return {
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
     },
+    cmdline = {
+      enabled = false,
+    },
     fuzzy = { implementation = 'rust' },
     signature = { enabled = true },
   },
