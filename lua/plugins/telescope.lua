@@ -68,15 +68,4 @@ return {
       end, { desc = '[S]earch [N]eovim files' })
     end,
   },
-  {
-    'nvim-telescope/telescope-frecency.nvim',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    version = '*',
-    config = function()
-      require('telescope').load_extension 'frecency'
-      vim.keymap.set('n', '<leader>ff', function()
-        require('telescope').extensions.frecency.frecency {}
-      end, { desc = '[F]recency [F]iles' })
-    end,
-  },
 }

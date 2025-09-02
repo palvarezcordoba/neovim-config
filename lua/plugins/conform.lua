@@ -15,6 +15,11 @@ return {
   opts = {
     notify_on_error = true,
     formatters = {
+      -- opts for ruff from default config
+      -- uses force exclude. I want to format all files,
+      -- even excluded ones, since it's not possible
+      -- to exclude files from linting but not formatting
+      -- in ruff
       ruff_format = {
         args = {
           'format',

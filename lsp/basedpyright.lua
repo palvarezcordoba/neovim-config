@@ -32,13 +32,36 @@ local function find_venv_dir()
   return nil
 end
 
+local open_files_only = true
+
+local function switch_openfiles_only()
+  open_files_only = not open_files_only
+  vim.lsp.config('basedpyright', {
+    settings = {
+      basedpyright = {
+        openFilesOnly = open_files_only,
+        analysis = {
+          diagnosticMode = open_files_only and 'openFilesOnly' or 'workspace',
+        },
+      },
+    },
+  })
+  vim.lsp.enable('basedpyright', false)
+  vim.lsp.enable('basedpyright', true)
+end
+
+vim.api.nvim_create_user_command('ToggleOpenFilesOnly', switch_openfiles_only, {
+  desc = 'Toggle openFilesOnly for Pyright',
+})
+
 return {
   settings = {
     basedpyright = {
-      -- openFilesOnly = false,
+      openFilesOnly = open_files_only,
       disableOrganizeImports = true,
       analysis = {
-        diagnosticMode = 'openFilesOnly',
+        diagnosticMode = open_files_only and 'openFilesOnly' or 'workspace',
+        -- diagnosticMode = 'openFilesOnly',
         -- diagnosticMode = 'workspace',
         autoImportCompletions = true,
         typeCheckingMode = 'standard',
