@@ -32,6 +32,7 @@ return {
     formatters_by_ft = {
       lua = { 'stylua' },
       python = { 'ruff_format', 'ruff_organize_imports', 'ruff_fix' },
+      rust = { 'rustfmt', lsp_format = 'fallback' },
     },
   },
   config = function(_, opts)
@@ -39,7 +40,7 @@ return {
     vim.api.nvim_create_autocmd('BufWritePre', {
       pattern = '*',
       callback = function(args)
-        require('conform').format { bufnr = args.buf }
+        require('conform').format { bufnr = args.buf, timeout_ms = 500, lsp_format = 'fallback' }
       end,
     })
   end,

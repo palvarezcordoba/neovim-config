@@ -43,7 +43,7 @@ return {
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', function()
         builtin.diagnostics {
-          default_text = '::error:: !tests !evaluation !scripts !frontend src/nesgpt ',
+          -- default_text = '::error:: !tests !evaluation !scripts !frontend src/nesgpt ',
         }
       end, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })

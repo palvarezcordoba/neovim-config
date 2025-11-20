@@ -34,19 +34,18 @@ return {
           gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = 'git [r]eset hunk' })
 
-        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
-        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
-        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]ndo stage hunk' })
-        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
-        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
-        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
+        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [h]unk [s]tage' })
+        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [h]unk [r]eset' })
+        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [h]unk [S]tage buffer' })
+        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'git [h]unk [u]ndo stage' })
+        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [h]unk [R]eset buffer' })
+        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [h]unk [p]review' })
+        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [h]unk [b]lame line' })
+        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [h]unk [d]iff against index' })
         map('n', '<leader>hD', function()
           gitsigns.diffthis '@'
-        end, { desc = 'git [D]iff against last commit' })
-
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
+        end, { desc = 'git [h]unk [D]iff against last commit' })
+        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame' })
         map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
       end,
     },

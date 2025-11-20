@@ -1,5 +1,6 @@
-vim.lsp.enable { 'basedpyright', 'ruff', 'lua_ls', 'rust_analyzer', 'zls', 'clangd', 'gopls', 'tsserver', 'terraform-ls' }
---
+-- Not needed due to mason
+-- vim.lsp.enable { 'basedpyright', 'ruff', 'lua_ls', 'rust_analyzer', 'zls', 'clangd', 'gopls', 'terraform-ls' }
+
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {
   -- virtual_lines = {
