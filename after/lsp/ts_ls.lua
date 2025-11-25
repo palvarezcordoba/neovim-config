@@ -5,8 +5,8 @@ return {
       init_options = {
         hostInfo = 'neovim',
       },
-      tsdk = '/home/pabdddlo/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib',
-      ['typescript.tsdk'] = '/home/pabdddlo/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib',
+      tsdk = '/home/pablo/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib',
+      ['typescript.tsdk'] = '/home/pablo/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib',
       typescript = {
         tsdk = '/home/pabdddlo/.local/share/nvim/mason/packages/typescript-language-server/node_modules/typescript/lib',
         enablePromptUseWorkspaceTsdk = true,
@@ -27,8 +27,9 @@ return {
       },
     },
   },
-  on_attach = function(client, bufnr)
-    client.server_capabilities.document_formatting = true
-    client.server_capabilities.document_range_formatting = true
-  end,
+  -- ---@param client vim.lsp.Client
+  -- on_attach = function(client, _)
+  --   client.server_capabilities.documentFormattingProvider = true
+  --   client.server_capabilities.documentRangeFormattingProvider = true
+  -- end,
 }

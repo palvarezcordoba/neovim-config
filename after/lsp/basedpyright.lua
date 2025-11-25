@@ -38,6 +38,8 @@ local function on_publish_diagnostics(_, params, ctx)
   -- if there are multiple diagnostics in the same line, keep only the one with the highest severity
   -- This is to improve the signal-to-noise ratio, and also to improve the "go to next/previous diagnostic" experience
   -- A lower severity value means a higher severity
+  --- TODO: I should support multiple diagnostics per line, as long as they have the same severity.
+  --- So, keeping all diagnostics of the highest severity per line instead.
   ---@type table<number, lsp.Diagnostic>
   local per_line_diagnostics = {}
   for _, diag in ipairs(diagnostics) do
@@ -73,27 +75,6 @@ local function on_show_message_request(error, result, ctx)
   return vim.lsp.handlers['window/showMessageRequest'](error, result, ctx)
 end
 
-local open_files_only = true
-local function switch_openfiles_only()
-  open_files_only = not open_files_only
-  vim.lsp.config('basedpyright', {
-    settings = {
-      basedpyright = {
-        openFilesOnly = open_files_only,
-        analysis = {
-          diagnosticMode = open_files_only and 'openFilesOnly' or 'workspace',
-        },
-      },
-    },
-  })
-  vim.lsp.enable('basedpyright', false)
-  vim.lsp.enable('basedpyright', true)
-end
-
-vim.api.nvim_create_user_command('ToggleOpenFilesOnly', switch_openfiles_only, {
-  desc = 'Toggle openFilesOnly for Pyright',
-})
-
 return {
   handlers = {
     ['textDocument/publishDiagnostics'] = on_publish_diagnostics,
@@ -106,6 +87,7 @@ return {
       local params = {
         command = 'basedpyright.writeBaseline',
       }
+      ---@diagnostic disable-next-line: param-type-mismatch
       client.request('workspace/executeCommand', params, nil, bufnr)
     end, {
       desc = 'Write Pyright Baseline for current workspace',
@@ -137,18 +119,14 @@ return {
         end,
         on_exit = function(_, return_val)
           if return_val == 0 then
-            vim.schedule(function()
-              local notify = require('mini.notify').make_notify()
-              notify('basedpyright lint succeeded', vim.log.levels.INFO, { title = 'basedpyright' })
-            end)
+            local notify = require('mini.notify').make_notify()
+            notify('basedpyright lint succeeded', vim.log.levels.INFO, { title = 'basedpyright' })
             handle:finish()
             return
           end
           handle:finish()
-          vim.schedule(function()
-            vim.fn.setqflist({}, ' ', { title = 'basedpyright', lines = output })
-            vim.cmd 'copen'
-          end)
+          vim.fn.setqflist({}, ' ', { title = 'basedpyright', lines = output })
+          vim.cmd 'copen'
         end,
       }):start()
     end, {
@@ -157,10 +135,10 @@ return {
   end,
   settings = {
     basedpyright = {
-      openFilesOnly = open_files_only,
+      openFilesOnly = true,
       disableOrganizeImports = true,
       analysis = {
-        diagnosticMode = open_files_only and 'openFilesOnly' or 'workspace',
+        diagnosticMode = 'openFilesOnly',
         autoImportCompletions = true,
         typeCheckingMode = 'standard',
         diagnosticSeverityOverrides = {
