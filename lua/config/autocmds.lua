@@ -79,3 +79,15 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.opt_local.buflisted = false
   end,
 })
+
+-- close certain filetypes with q
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'qf',
+    'help',
+    'man',
+  },
+  callback = function(event)
+    vim.api.nvim_buf_set_keymap(event.buf, 'n', 'q', '<Cmd>close<CR>', { silent = true })
+  end,
+})

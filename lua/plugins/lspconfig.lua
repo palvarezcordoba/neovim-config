@@ -1,5 +1,6 @@
 local language_servers = {
-  'azure_pipelines_ls',
+  -- Disabled because seems to not do anything, but mess with yaml formatting of azure-pipelines files
+  -- 'azure_pipelines_ls',
   'basedpyright',
   'csharp_ls',
   'dockerls',
@@ -21,6 +22,7 @@ local tools = {
   'fixjson',
   'prettier',
   'vale',
+  'debugpy',
 }
 
 return {

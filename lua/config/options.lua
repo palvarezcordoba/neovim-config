@@ -1,3 +1,4 @@
+vim.opt.clipboard = 'unnamedplus'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.opt.swapfile = false
@@ -19,9 +20,6 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 600
 vim.opt.splitright = true
 vim.opt.splitbelow = true
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'

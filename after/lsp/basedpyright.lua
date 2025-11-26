@@ -51,7 +51,6 @@ local function on_publish_diagnostics(_, params, ctx)
 
   diagnostics = vim.tbl_values(per_line_diagnostics)
   params.diagnostics = diagnostics
-  -- vim.notify(vim.inspect(params), vim.log.levels.INFO, { title = 'Diagnostics' })
   vim.lsp.diagnostic.on_publish_diagnostics(_, params, ctx)
 end
 
