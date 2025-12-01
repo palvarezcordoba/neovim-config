@@ -27,30 +27,27 @@ end
 ---@param ctx lsp.HandlerContext
 local function on_publish_diagnostics(_, params, ctx)
   -- filter out params.diagnostics with a message that starts with "Baselined: "
-  ---@type lsp.Diagnostic[]
-  local diagnostics = {}
-  for _, diag in ipairs(params.diagnostics) do
-    if not vim.startswith(diag.message, 'Baselined: ') then
-      table.insert(diagnostics, diag)
-    end
-  end
+  params.diagnostics = vim.tbl_filter(function(diag)
+    return not vim.startswith(diag.message, 'Baselined: ')
+  end, params.diagnostics)
 
-  -- if there are multiple diagnostics in the same line, keep only the one with the highest severity
+  -- if there are multiple diagnostics in the same line, keep only those with the highest severity
   -- This is to improve the signal-to-noise ratio, and also to improve the "go to next/previous diagnostic" experience
   -- A lower severity value means a higher severity
-  --- TODO: I should support multiple diagnostics per line, as long as they have the same severity.
-  --- So, keeping all diagnostics of the highest severity per line instead.
-  ---@type table<number, lsp.Diagnostic>
-  local per_line_diagnostics = {}
-  for _, diag in ipairs(diagnostics) do
+  ---@type table<number, lsp.DiagnosticSeverity>
+  local per_line_best_severity = {}
+  for _, diag in ipairs(params.diagnostics) do
     local line = diag.range.start.line
-    if not per_line_diagnostics[line] or diag.severity < per_line_diagnostics[line].severity then
-      per_line_diagnostics[line] = diag
+    local severity = diag.severity or vim.lsp.protocol.DiagnosticSeverity.Information
+    if not per_line_best_severity[line] or severity < per_line_best_severity[line] then
+      per_line_best_severity[line] = severity
     end
   end
-
-  diagnostics = vim.tbl_values(per_line_diagnostics)
-  params.diagnostics = diagnostics
+  params.diagnostics = vim.tbl_filter(function(diag)
+    local line = diag.range.start.line
+    local severity = diag.severity or vim.lsp.protocol.DiagnosticSeverity.Information
+    return severity == per_line_best_severity[line]
+  end, params.diagnostics)
   vim.lsp.diagnostic.on_publish_diagnostics(_, params, ctx)
 end
 
