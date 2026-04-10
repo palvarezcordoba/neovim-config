@@ -13,7 +13,7 @@ local language_servers = {
   'taplo',
   'terraformls',
   'ts_ls',
-  'vale_ls',
+  -- 'vale_ls',
   'yamlls',
   'zls',
 }
@@ -21,7 +21,7 @@ local language_servers = {
 local tools = {
   'fixjson',
   'prettier',
-  'vale',
+  -- 'vale',
   'debugpy',
 }
 

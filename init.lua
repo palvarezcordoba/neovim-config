@@ -26,3 +26,5 @@ vim.api.nvim_create_user_command('Make', function(opts)
     vim.cmd(cmd)
   end
 end, make_cmd_opts)
+
+require 'sync'

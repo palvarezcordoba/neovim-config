@@ -91,3 +91,18 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.api.nvim_buf_set_keymap(event.buf, 'n', 'q', '<Cmd>close<CR>', { silent = true })
   end,
 })
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*.yaml.j2', '*.yml.j2' },
+  group = vim.api.nvim_create_augroup('jinja-syntax', { clear = true }),
+  command = 'set syntax=yaml',
+})
+
+-- Make <C-w> delete previous word inside dap-ui REPL (terminal-mode buffer)
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'dap-repl',
+  callback = function(event)
+    local opts = { buffer = event.buf, silent = true }
+    vim.keymap.set({ 't', 'i' }, '<C-w>', '<C-\\><C-o>db', opts)
+  end,
+})

@@ -11,12 +11,11 @@ local function find_venv_dir()
       return candidate
     end
 
-    local parent = join_path(dir, '..')
-    local real_parent = vim.uv.fs_realpath(parent)
-    if not real_parent or real_parent == dir then
+    local parent = vim.uv.fs_realpath(join_path(dir, '..'))
+    if not parent or parent == dir or parent == '' or parent == '/' then
       break
     end
-    dir = real_parent
+    dir = parent
   end
 
   return nil

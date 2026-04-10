@@ -42,3 +42,58 @@ end
 vim.api.nvim_create_user_command('ToggleOpenFilesOnly', switch_openfiles_only, {
   desc = 'LSP: Toggle openFilesOnly for Pyright',
 })
+
+vim.api.nvim_create_user_command('PyrightSetVenv', function(opts)
+  local venv_path = opts.args
+
+  if venv_path == '' then
+    vim.notify('Please provide a path to the virtual environment.', vim.log.levels.WARN, { title = 'LSP' })
+    return
+  end
+
+  vim.lsp.config('basedpyright', {
+    settings = {
+      python = {
+        pythonPath = venv_path .. '/bin/python',
+      },
+    },
+  })
+
+  vim.lsp.enable('basedpyright', false)
+  vim.lsp.enable('basedpyright', true)
+
+  vim.notify('Pyright virtual environment set to: ' .. venv_path, vim.log.levels.INFO, { title = 'LSP' })
+end, {
+  desc = 'LSP: Set Pyright virtual environment path',
+  nargs = 1,
+
+  -- Tab completion
+  complete = function(arglead)
+    -- Expand ~ and other vim-style prefixes
+    local lead = vim.fn.expand(arglead)
+
+    -- List matching directories
+    local matches = vim.fn.glob(lead .. '*', true, true)
+
+    -- Filter to dirs and prefer common venv folder names
+    local preferred = {}
+    local others = {}
+
+    for _, p in ipairs(matches) do
+      if vim.fn.isdirectory(p) == 1 then
+        local name = vim.fn.fnamemodify(p, ':t')
+        if name == '.venv' or name == 'venv' or name == 'env' or name == '.env' then
+          table.insert(preferred, p)
+        else
+          table.insert(others, p)
+        end
+      end
+    end
+
+    -- Return in a nice order
+    local out = {}
+    vim.list_extend(out, preferred)
+    vim.list_extend(out, others)
+    return out
+  end,
+})

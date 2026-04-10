@@ -52,6 +52,7 @@ return {
       return 'python3'
     end
 
+    ---@diagnostic disable-next-line: missing-fields
     require('neotest').setup {
       adapters = {
         require 'neotest-python' {
@@ -62,5 +63,13 @@ return {
         require 'neotest-rust',
       },
     }
+    vim.api.nvim_create_user_command('NeoTestNearVerbose', function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('neotest').run.run { extra_args = { '-vv' } }
+    end, { nargs = 0 })
+    vim.api.nvim_create_user_command('NeoTestNearDebug', function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('neotest').run.run { strategy = 'dap' }
+    end, { nargs = 0 })
   end,
 }
